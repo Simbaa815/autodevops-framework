@@ -1,0 +1,33 @@
+name: Run Audit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: GitHub Audit
+        run: bash scripts/audit_github.sh
+
+      - name: AWS Audit
+        env:
+          AWS_REGION: ap-south-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: bash scripts/audit_aws.sh
+
+      - name: MongoDB Audit
+        run: bash scripts/audit_mongodb.sh
+
+      - name: Generate Summary
+        run: bash scripts/generate_summary.sh
+
+      - name: Upload Audit Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-summary
+          path: docs/audit_summary.md
