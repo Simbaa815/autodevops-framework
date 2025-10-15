@@ -60,6 +60,7 @@ bash scripts/audit_github.sh
 bash scripts/audit_aws.sh
 bash scripts/audit_mongodb.sh
 bash scripts/generate_summary.sh
+```
 
-
-# 
+- **Run via GitHub Actions**:
+  - Go to the Actions tab → select Run Audit → click Run workflow.
