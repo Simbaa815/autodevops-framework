@@ -19,6 +19,7 @@ A **secure, automated DevOps framework** designed to enable continuous delivery,
 4. **Infra Hardening** – AWS security, monitoring, backups, and cost optimization.
 5. **Governance & Continuity** – Enforce code discipline, documentation, and knowledge continuity.
 
+<!--
 ---
 
 ## 📂 Repository Structure
@@ -39,7 +40,7 @@ autodevops-framework/
 │ └── workflows/
 │ └── run_audit.yml # GitHub Actions workflow to run audits
 └── README.md
-
+-->
 
 
 ---
@@ -64,3 +65,32 @@ bash scripts/generate_summary.sh
 
 - **Run via GitHub Actions**:
   - Go to the Actions tab → select Run Audit → click Run workflow.
+
+---
+
+## 📋 Phase 2: CI/CD Automation (GitHub Actions)
+
+**Goal:** Automate build, test, and deployment for both frontend (React) and backend (Node.js).
+
+---
+
+## 🔹 Deployment Rules
+
+- **Staging branch:** Auto-deploy on every push/merge.  
+- **Main branch:** Manual deploy post PR approval.  
+- **Rollback:** Supports deploying the last successful version.
+
+---
+
+## 🛠 Deployment Scripts
+
+- `ci/deploy_backend.sh` → Builds & deploys Node.js backend.  
+- `ci/deploy_frontend.sh` → Builds & deploys React frontend.  
+
+---
+
+## 🔹 SSH Placeholders
+
+```text
+ec2-user@staging-ec2-ip   # Replace with your staging EC2 public IP or DNS
+ec2-user@prod-ec2-ip      # Replace with your production EC2 public IP or DNS

@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - staging
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy-backend:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Deploy Backend to Staging
+        if: github.ref == 'refs/heads/staging'
+        run: bash ci/deploy_backend.sh staging
+
+      - name: Deploy Backend to Production
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        run: bash ci/deploy_backend.sh production
+
+  build-and-deploy-frontend:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Deploy Frontend to Staging
+        if: github.ref == 'refs/heads/staging'
+        run: bash ci/deploy_frontend.sh staging
+
+      - name: Deploy Frontend to Production
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        run: bash ci/deploy_frontend.sh production
